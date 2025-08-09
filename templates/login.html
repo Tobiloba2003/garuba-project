@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Login - Tax Evasion System</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body style="background: url('{{ url_for('static', filename='img/AdobeStock_635209698_Preview.jpeg') }}') no-repeat center center; background-size: cover; background-attachment: fixed;">
+  <div class="login-container">
+    <div class="profile-card">
+      <img src="https://img.icons8.com/ios-filled/100/user-male-circle.png" alt="Profile Pic" class="profile-pic">
+      <h2>Welcome</h2>
+      <p>Please log in to continue.</p>
+    </div>
+    <form method="POST" action="/login" class="login-form">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</body>
+</html>

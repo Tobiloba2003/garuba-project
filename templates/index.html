@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Tax Evasion Detection</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body style="background: url('{{ url_for('static', filename='img/AdobeStock_635209698_Preview.jpeg') }}') no-repeat center center; background-size: cover; background-attachment: fixed;">
+  <div class="container">
+    <h1>Welcome, {{ username }}</h1>
+
+    <div class="main-section">
+      <!-- Left: Form -->
+      <div class="form-section">
+  <form method="POST" action="/">
+    <!-- Row 1: Income & Expenses -->
+    <div class="form-row">
+      <input type="number" name="income" placeholder="Income" required>
+      <input type="number" name="expenses" placeholder="Expenses" required>
+    </div>
+
+    <!-- Row 2: Expected Tax & Actual Tax Paid -->
+    <div class="form-row">
+      <input type="number" name="Expected_Tax" placeholder="Expected Tax" required>
+      <input type="number" name="ActualTaxPaid" placeholder="Actual Tax Paid" required>
+    </div>
+
+    <!-- Button -->
+    <button type="submit">Check</button>
+  </form>
+</div>
+
+
+      <!-- Right: Prediction result -->
+      {% if show_result %}
+<div class="prediction-section">
+  <div class="ai-box">
+    <div class="ai-icon">
+      <img src="{{ url_for('static', filename='img/75_advanced_AI_assistant_artificial_intelligence_robot_machine_learning_robotics_virtual_assistant-512.webp') }}" alt="AI Assistant Icon">
+    </div>
+    <div class="ai-text">
+      <strong>AI Assistant:</strong>
+      <p>{{ message }}</p>
+
+      <p><strong>Status:</strong> {{ flag }}</p>
+      <p><strong>Income:</strong> ₦{{ income }}</p>
+      <p><strong>Actual Tax Paid:</strong> ₦{{ tax_paid }}</p>
+      <p><strong>Tax Discrepancy:</strong> ₦{{ tax_discrepancy }}</p>
+      <p><strong>Tax Compliance Percentage:</strong> {{ tcp }}%</p>
+      <p><strong>Expenses:</strong> ₦{{ expenses }}</p>
+      <p><strong>Remaining Balance:</strong> ₦{{ remaining_balance }}</p>
+
+      <div class="chart-container">
+        <canvas id="predictionChart" width="280" height="250"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+{% endif %}
+    </div>
+     <br>
+  <a href="{{ url_for('logout') }}" class="btn">Logout</a>
+  </div>
+
+  <script>
+{% if show_result %}
+  const ctx = document.getElementById('predictionChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'pie',
+    data: {
+      labels: ['Actual Tax Paid', 'Tax Discrepancy', 'Remaining Balance'],
+      datasets: [{
+        data: [{{ tax_paid }}, {{ tax_discrepancy }}, {{ remaining_balance }}],
+        backgroundColor: ['#2ecc71', '#e74c3c', '#3498db']
+      }]
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      }
+    }
+  });
+{% endif %}
+</script>
+
+</body>
+</html>
